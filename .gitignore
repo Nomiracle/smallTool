@@ -1,3 +1,5 @@
 target
 *.iml
 .idea/
+qrcode_*.jpg
+.DS_Store

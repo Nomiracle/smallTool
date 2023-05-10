@@ -4,13 +4,17 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import picocli.CommandLine;
+import utils.HexUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.EnumMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -25,6 +29,9 @@ public class qrcode implements Callable<Integer> {
 
     @CommandLine.Option(names = {"-s", "--stride"}, description = "stride of string.")
     private Integer stride = 2000;
+
+    @CommandLine.Option(names = {"-o", "--outformat"}, description = "out str format.such as hex,base64")
+    private String outformat = "str";
 
 
     final private QRCodeWriter barcodeWriter = new QRCodeWriter();
@@ -42,6 +49,13 @@ public class qrcode implements Callable<Integer> {
     @Override
     public Integer call() throws WriterException, IOException { // your business logic goes here...
         System.out.print("generate qr code:" + content + " .....\n");
+
+        if((outformat+"").toLowerCase(Locale.ROOT).contains("hex")){
+            content = HexUtils.encode(content.getBytes(StandardCharsets.UTF_8));
+        }else if((outformat+"").toLowerCase(Locale.ROOT).contains("base64")){
+            content = Base64.encode(content.getBytes(StandardCharsets.UTF_8));
+        }
+
 
 
         int i=0,qrOrder=0;

@@ -7,6 +7,9 @@ java -cp xxx.jar classname -option arg0 ...
 ```
 
 generate qr code example:
+
 ```
+java -cp "common-tool-1.0-jar-with-dependencies.jar" qrcode --help
+
 java -cp "common-tool-1.0-jar-with-dependencies.jar" qrcode -c 123 -l 100
 ```
